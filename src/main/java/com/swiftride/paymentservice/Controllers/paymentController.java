@@ -1,33 +1,60 @@
 package com.swiftride.paymentservice.Controllers;
 
-import com.razorpay.RazorpayClient;
-import com.razorpay.RazorpayException;
-import lombok.RequiredArgsConstructor;
+import com.swiftride.paymentservice.DTOs.CreateOrderDTO;
+import com.swiftride.paymentservice.Services.PaymentService;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
-@RequestMapping("/payments")
+@RequestMapping("/orders")
 public class paymentController {
-    private final RazorpayClient razorpayClient;
+    private final PaymentService paymentService;
 
-    public paymentController(RazorpayClient razorpayClient) {
-        this.razorpayClient = razorpayClient;
+    public paymentController(PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
 
     @PostMapping("/create-order")
-    public ResponseEntity<?> createOrder () throws RazorpayException {
-        JSONObject options = new JSONObject();
+    public ResponseEntity<?> createOrder (
+            @RequestBody CreateOrderDTO request,
+            @RequestHeader(value = "x-user-payload", required = false) String userPayload
+    ) {
+        JSONObject payload = new JSONObject(userPayload);
 
-        options.put("amount", 4000);
-        options.put("currency", "INR");
-        options.put("receipt", "order_rcptid_11");
+        System.out.println("REACHING SERVER::::::::::::::: " + payload);
 
-        return ResponseEntity.ok("Payment order created!");
+        if (
+            request.getCaptainId() == null ||
+            request.getRideId() == null ||
+            request.getFare() == null
+        ) {
+            return ResponseEntity.badRequest().body(
+                    Map.of(
+                            "message", "credentials missing!",
+                            "captainId", request.getCaptainId()
+                    )
+            );
+        }
+
+        try {
+            var response = paymentService.createOrder(payload.getString("userId"), Double.parseDouble(request.getFare()), request.getRideId(), request.getCaptainId());
+
+            if (response == null) {
+                return ResponseEntity
+                        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Failed to create the order!");
+
+            }
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Error in create-order controller: " + e.getMessage(), e);
+        }
     }
 
 }

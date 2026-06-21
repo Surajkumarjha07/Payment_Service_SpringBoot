@@ -14,7 +14,11 @@ import lombok.Setter;
 })
 public class Payment {
     @Id
-    @Column(name = "paymentId", nullable = false, unique = true)
+    @Column(name = "id", nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "paymentId", nullable = true, unique = true)
     private String paymentId;
 
     @Column(name = "orderId", nullable = false, unique = true)
@@ -30,13 +34,13 @@ public class Payment {
     private String userId;
 
     @Column(name = "total_amount", nullable = false)
-    private Integer totalAmount;
+    private Double totalAmount;
 
     @Column(name = "captain_commission", nullable = false)
-    private Integer captainCommission;
+    private Double captainCommission;
 
     @Column(name = "platform_commission", nullable = false)
-    private Integer platformCommission;
+    private Double platformCommission;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
