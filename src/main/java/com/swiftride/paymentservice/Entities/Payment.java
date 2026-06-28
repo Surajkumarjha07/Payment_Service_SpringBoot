@@ -18,28 +18,28 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "paymentId", nullable = true, unique = true)
+    @Column(name = "\"paymentId\"", nullable = true, unique = true)
     private String paymentId;
 
-    @Column(name = "orderId", nullable = false, unique = true)
+    @Column(name = "\"orderId\"", nullable = false, unique = true)
     private String orderId;
 
-    @Column(name = "rideId", nullable = false, unique = true)
+    @Column(name = "\"rideId\"", nullable = false, unique = true)
     private String rideId;
 
-    @Column(name = "captainId", nullable = false)
+    @Column(name = "\"captainId\"", nullable = false)
     private String captainId;
 
-    @Column(name = "userId", nullable = false)
+    @Column(name = "\"userId\"", nullable = false)
     private String userId;
 
-    @Column(name = "total_amount", nullable = false)
+    @Column(name = "\"total_amount\"", nullable = false)
     private Double totalAmount;
 
-    @Column(name = "captain_commission", nullable = false)
+    @Column(name = "\"captain_commission\"", nullable = false)
     private Double captainCommission;
 
-    @Column(name = "platform_commission", nullable = false)
+    @Column(name = "\"platform_commission\"", nullable = false)
     private Double platformCommission;
 
     @Enumerated(EnumType.STRING)
