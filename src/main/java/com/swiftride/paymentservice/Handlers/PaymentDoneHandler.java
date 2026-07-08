@@ -40,10 +40,6 @@ public class PaymentDoneHandler {
                 throw new RuntimeException("Error in payment service: Payment ID and Order ID are missing!");
             }
 
-            System.out.println("PAYMENT ID::: " + message.getPaymentId());
-            System.out.println("MESSAGE::::: " + message);
-            System.out.println("ORDER::::: " + message.getOrder());
-
             payment.setPaymentId(message.getPaymentId());
             payment.setStatus(PaymentStatus.success);
 
