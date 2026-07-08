@@ -41,6 +41,8 @@ public class PaymentDoneHandler {
             }
 
             System.out.println("PAYMENT ID::: " + message.getPaymentId());
+            System.out.println("MESSAGE::::: " + message);
+            System.out.println("ORDER::::: " + message.getOrder());
 
             payment.setPaymentId(message.getPaymentId());
             payment.setStatus(PaymentStatus.success);
