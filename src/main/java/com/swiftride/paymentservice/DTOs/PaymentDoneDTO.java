@@ -11,7 +11,7 @@ public class PaymentDoneDTO {
     private String paymentId;
 
     private String orderId;
-    private Object order;
+    private OrderDTO order;
     private String userId;
     private String rideId;
     private String captainId;
