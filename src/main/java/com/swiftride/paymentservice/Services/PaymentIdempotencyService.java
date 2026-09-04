@@ -16,6 +16,10 @@ public class PaymentIdempotencyService {
 
     private final String REDIS_KEY = "swiftride:payments:idempotency:key:";
 
+    public String createIdempotencyKey(String rideId, String userId) {
+        return String.format("ride:%s:user:%s", rideId, userId);
+    }
+
     public boolean claimIdempotencyKey(String idempotencyKey, Duration ttl) {
         Boolean acquired = redisTemplate.opsForValue()
                 .setIfAbsent(REDIS_KEY + idempotencyKey, PaymentStatus.pending, ttl);

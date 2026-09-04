@@ -29,6 +29,6 @@ public class PaymentService {
 
         System.out.println("PROVIDER NAME::::::::: " + fetchedProvider);
 
-        return strategy.createOrder(userId, fare, rideId, captainId, idempotencyKey);
+        return strategy.createOrder(userId, fare, rideId, captainId);
     }
 }

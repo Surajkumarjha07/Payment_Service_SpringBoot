@@ -30,7 +30,8 @@ public class RazorpayPaymentStrategy implements PaymentStrategy {
     PaymentIdempotencyService paymentIdempotencyService;
 
     @Override
-    public PaymentResponse createOrder(String userId, Double fare, String rideId, String captainId, String idempotencyKey) {
+    public PaymentResponse createOrder(String userId, Double fare, String rideId, String captainId) {
+        String idempotencyKey = paymentIdempotencyService.createIdempotencyKey(rideId, userId);
         boolean isFirstAttempt = paymentIdempotencyService.claimIdempotencyKey(idempotencyKey, Duration.ofMinutes(10));
 
         if (!isFirstAttempt) {
