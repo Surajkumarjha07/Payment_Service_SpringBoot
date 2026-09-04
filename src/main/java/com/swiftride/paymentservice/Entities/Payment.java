@@ -42,6 +42,9 @@ public class Payment {
     @Column(name = "\"platform_commission\"", nullable = false)
     private Double platformCommission;
 
+    @Column(name = "\"idempotencyKey\"", unique = true, nullable = false)
+    private String idempotencyKey;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private PaymentStatus status = PaymentStatus.pending;
