@@ -7,4 +7,6 @@ public class CreateOrderDTO {
     private String captainId;
     private String rideId;
     private String fare;
+    private String provider;
+    private String idempotencyKey;
 }

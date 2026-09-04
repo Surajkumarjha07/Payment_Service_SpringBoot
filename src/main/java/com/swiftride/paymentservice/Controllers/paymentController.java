@@ -1,6 +1,7 @@
 package com.swiftride.paymentservice.Controllers;
 
 import com.swiftride.paymentservice.DTOs.CreateOrderDTO;
+import com.swiftride.paymentservice.DTOs.PaymentResponse;
 import com.swiftride.paymentservice.Services.PaymentService;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class paymentController {
     ) {
         JSONObject payload = new JSONObject(userPayload);
 
-        System.out.println("REACHING SERVER::::::::::::::: " + payload);
+        System.out.println("PAYLOAD ::::::::::::::: " + payload);
 
         if (
             request.getCaptainId() == null ||
@@ -41,13 +42,12 @@ public class paymentController {
         }
 
         try {
-            var response = paymentService.createOrder(payload.getString("userId"), Double.parseDouble(request.getFare()), request.getRideId(), request.getCaptainId());
+            PaymentResponse response = paymentService.createOrder(payload.getString("userId"), Double.parseDouble(request.getFare()), request.getRideId(), request.getCaptainId(), request.getProvider(), request.getIdempotencyKey());
 
             if (response == null) {
                 return ResponseEntity
                         .status(HttpStatus.INTERNAL_SERVER_ERROR)
                         .body("Failed to create the order!");
-
             }
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
