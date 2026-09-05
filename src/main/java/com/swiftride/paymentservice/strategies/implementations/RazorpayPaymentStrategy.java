@@ -71,6 +71,7 @@ public class RazorpayPaymentStrategy implements PaymentStrategy {
             payment.setCaptainCommission(captainCommission);
             payment.setTotalAmount(fare);
             payment.setPlatformCommission(platformCommission);
+            payment.setIdempotencyKey(idempotencyKey);
             payment.setStatus(PaymentStatus.pending);
 
             Payment savedOrder = paymentRepository.save(payment);
